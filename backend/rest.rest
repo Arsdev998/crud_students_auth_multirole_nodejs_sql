@@ -1,0 +1,77 @@
+GET http://localhost:5000/users
+
+###
+GET http://localhost:5000/users/cda88353-c1db-42f3-8ab2-80e03cc46e00
+
+
+###
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "name": "Arsyad",
+    "email": "arsyad@gmail.com",
+    "password":"12345678",
+    "confPassword": "12345678",
+    "role":"murid"
+}
+
+
+###
+GET http://localhost:5000/me
+
+
+###
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email": "malikabd@gmail.com",
+    "password":"12345678"
+}
+
+### 
+DELETE http://localhost:5000/logout
+
+###
+PATCH  http://localhost:5000/users/7706485e-f505-4a3e-b5f2-0c87ad6c2a0d
+Content-Type: application/json
+
+{
+    "name":"Malik Abdullah",
+    "email": "malikabd@gmail.com",
+    "password":"12345678",
+    "confPassword":"12345678",
+    "role":"guru"
+}
+
+### 
+POST http://localhost:5000/tasks
+Content-Type: application/json
+
+{
+  "detail": "Buatlah Web seperti tokopedia, menggunakan html css only dan js vanila",
+  "task": "e-comerse",
+  "nilai": 90,
+  "status": "pending",
+  "userId": "cda88353-c1db-42f3-8ab2-80e03cc46e00"
+}
+
+###
+PATCH  http://localhost:5000/tasks/5794030b-f95e-42dd-a2a3-5d2914fce668
+Content-Type: application/json
+
+{
+  "detail": "buatlah crud menggunakan Py.",
+  "task": "CRUD",
+  "nilai": 90,
+  "status": "completed",
+  "userId": "cda88353-c1db-42f3-8ab2-80e03cc46e00"
+}
+
+### 
+DELETE http://localhost:5000/tasks/0212fede-1869-405b-ae5a-d3e4a715c241
+
+
+###
+GET http://localhost:5000/tasks/4295b824-3015-4e33-a26f-02a34ec46a28
