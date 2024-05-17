@@ -19,10 +19,8 @@ export const LoginUser = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      if (error.response) {
-        const message = error.response.data.msg;
-        return thunkAPI.rejectWithValue(message);
-      }
+      const message = error.response?.data?.msg || error.message;
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
@@ -32,15 +30,19 @@ export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
     const response = await axios.get("http://localhost:5000/me");
     return response.data;
   } catch (error) {
-    if (error.response) {
-      const message = error.response.data.msg;
-      return thunkAPI.rejectWithValue(message);
-    }
+    const message = error.response?.data?.msg || error.message;
+    return thunkAPI.rejectWithValue(message);
   }
 });
 
-export const Logout = createAsyncThunk("user/Logout", async () => {
-  await axios.delete("http://localhost:5000/logout");
+export const Logout = createAsyncThunk("user/Logout", async (_, thunkAPI) => {
+  try {
+    await axios.delete("http://localhost:5000/logout");
+    return true;
+  } catch (error) {
+    const message = error.response?.data?.msg || error.message;
+    return thunkAPI.rejectWithValue(message);
+  }
 });
 
 export const authSlice = createSlice({
@@ -50,10 +52,12 @@ export const authSlice = createSlice({
     reset: (state) => {
       state.isError = false;
       state.isLoading = false;
+      state.isSuccess = false;
       state.message = "";
     },
   },
   extraReducers: (builder) => {
+    // LoginUser cases
     builder.addCase(LoginUser.pending, (state) => {
       state.isLoading = true;
     });
@@ -67,6 +71,8 @@ export const authSlice = createSlice({
       state.isError = true;
       state.message = action.payload;
     });
+
+    // getMe cases
     builder.addCase(getMe.pending, (state) => {
       state.isLoading = true;
     });
@@ -80,8 +86,20 @@ export const authSlice = createSlice({
       state.isError = true;
       state.message = action.payload;
     });
+
+    // Logout cases
+    builder.addCase(Logout.pending, (state) => {
+      state.isLoading = true;
+    });
     builder.addCase(Logout.fulfilled, (state) => {
+      state.isLoading = false;
       state.user = null;
+      state.isSuccess = true;
+    });
+    builder.addCase(Logout.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
     });
   },
 });

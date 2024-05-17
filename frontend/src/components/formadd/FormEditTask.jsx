@@ -2,8 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-const FormEditTask = ({ uuid,userId }) => {
-  const { id } = useParams();
+const FormEditTask = ({  userId, taskId }) => {
   const [detail, setDetail] = useState("");
   const [task, setTask] = useState("");
   const [nilai, setNilai] = useState("");
@@ -14,9 +13,7 @@ const FormEditTask = ({ uuid,userId }) => {
     // Fetch task data by UUID
     const fetchTaskData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/tasks/${uuid}`
-        );
+        const response = await axios.get(`http://localhost:5000/tasks/${taskId}`);
         const taskData = response.data;
         setDetail(taskData.detail);
         setTask(taskData.task);
@@ -27,34 +24,40 @@ const FormEditTask = ({ uuid,userId }) => {
       }
     };
     fetchTaskData();
-  }, [uuid]);
+  }, [taskId]);
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await axios.put(
-      `http://localhost:5000/tasks/${uuid}`,
-      {
+    e.preventDefault();
+    try {
+      console.log(`Updating task with ID: ${taskId}`);
+      console.log(`Detail: ${detail}, Task: ${task}, Nilai: ${nilai}, Status: ${status}`);
+  
+      const response = await axios.patch(`http://localhost:5000/tasks/${taskId}`, {
         detail,
         task,
         nilai,
         status,
-        userId: userId, // userId yang diteruskan dari prop
+      });
+  
+      console.log("Task updated successfully:", response.data);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error updating task:", error);
+      if (error.response) {
+        console.error("Response data:", error.response.data);
       }
-    );
-    navigate(`/studentslist/detail/${id}`);
-  } catch (error) {
-    console.error("Error updating task:", error);
-  }
-};
-
-
+    }
+  };
+  
   return (
     <div className="max-w-lg mx-auto mt-8">
       <h2 className="text-xl font-semibold mb-4">Edit Task</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="detail" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="detail"
+            className="block text-sm font-medium text-gray-700"
+          >
             Detail:
           </label>
           <input
@@ -66,7 +69,10 @@ const FormEditTask = ({ uuid,userId }) => {
           />
         </div>
         <div>
-          <label htmlFor="task" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="task"
+            className="block text-sm font-medium text-gray-700"
+          >
             Task:
           </label>
           <input
@@ -78,7 +84,10 @@ const FormEditTask = ({ uuid,userId }) => {
           />
         </div>
         <div>
-          <label htmlFor="nilai" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="nilai"
+            className="block text-sm font-medium text-gray-700"
+          >
             Nilai:
           </label>
           <input
@@ -90,7 +99,10 @@ const FormEditTask = ({ uuid,userId }) => {
           />
         </div>
         <div>
-          <label htmlFor="status" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium text-gray-700"
+          >
             Status:
           </label>
           <select

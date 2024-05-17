@@ -3,7 +3,7 @@ import Layout from "../components/Layout/Layout";
 import { getMe } from "../features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import UserList from "../components/list/UserList";
+import Welcome from "../components/dashboard/Welcome";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      dashboard
+     <Welcome/>
     </Layout>
   );
 };

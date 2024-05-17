@@ -25,7 +25,7 @@ export const getUserbyId = async (req, res) => {
       },
       include: {
         model: Tasks,
-        attributes: ["detail", "task", "nilai", "status",'uuid'],
+        attributes: ["detail", "task", "nilai", "status", "uuid","id"],
       },
     });
     res.status(200).json(response);
@@ -106,20 +106,29 @@ export const updateUser = async (req, res) => {
   }
 };
 export const deleteUser = async (req, res) => {
-  const user = await Users.findOne({
-    where: {
-      uuid: req.params.id,
-    },
-  });
-  if (!user) return res.status(404).json({ msg: "User not found" });
   try {
-    await Users.destroy({
+    console.log(req.params.id);
+    // Mencari pengguna berdasarkan UUID yang diterima dari parameter request
+    const user = await Users.findOne({
       where: {
-        id: user.id,
+        uuid: req.params.id, // Pastikan nama parameter sesuai, misalnya 'id'
       },
     });
+
+    // Jika pengguna tidak ditemukan, kirim respons 404
+    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    // Menghapus pengguna berdasarkan id yang ditemukan dari UUID
+    await Users.destroy({
+      where: {
+        uuid: user.uuid,
+      },
+    });
+
+    // Mengirim respons sukses jika pengguna berhasil dihapus
     res.status(200).json({ msg: "User deleted" });
   } catch (error) {
+    // Mengirim respons kesalahan jika terjadi error
     res.status(400).json({ msg: error.message });
   }
 };

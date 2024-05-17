@@ -1,7 +1,6 @@
-import axios from "axios";
 import React from "react";
 
-const Modal = ({ isOpen, closeModal, children, studentsId, getStudents }) => {
+const Modal = ({ isOpen, closeModal, children,className }) => {
   if (!isOpen) return null;
 
   return (
@@ -24,8 +23,8 @@ const Modal = ({ isOpen, closeModal, children, studentsId, getStudents }) => {
           aria-modal="true"
           aria-labelledby="modal-headline"
         >
-          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div className="sm:flex sm:items-start flex flex-col ">{children}</div>
+          <div className={`bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 ${className}`}>
+            <div className="flex flex-col ">{children}</div>
           </div>
         </div>
       </div>

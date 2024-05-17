@@ -6,7 +6,7 @@ import { adminOnly, verifyUser } from "../middleware/Auth.js";
 const router = express.Router();
 
 router.get('/tasks/:id',getTasks)
-router.post('/tasks',verifyUser,adminOnly,createTask)
+router.post('/tasks',adminOnly,verifyUser,createTask)
 router.patch('/tasks/:id',verifyUser,adminOnly,updateTask)
 router.delete('/tasks/:id',verifyUser,adminOnly,deleteTask)
 

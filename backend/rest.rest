@@ -1,8 +1,10 @@
 GET http://localhost:5000/users
 
 ###
-GET http://localhost:5000/users/cda88353-c1db-42f3-8ab2-80e03cc46e00
+GET http://localhost:5000/users/4cac8053-1dcb-46e8-86fc-f01d4b4b4b9f
 
+###
+DELETE http://localhost:5000/users/4cac8053-1dcb-46e8-86fc-f01d4b4b4b9f
 
 ###
 POST http://localhost:5000/users
@@ -58,20 +60,19 @@ Content-Type: application/json
 }
 
 ###
-PATCH  http://localhost:5000/tasks/5794030b-f95e-42dd-a2a3-5d2914fce668
+PATCH  http://localhost:5000/tasks/19
 Content-Type: application/json
 
 {
-  "detail": "buatlah crud menggunakan Py.",
+  "detail": "buat tokped.",
   "task": "CRUD",
   "nilai": 90,
-  "status": "completed",
-  "userId": "cda88353-c1db-42f3-8ab2-80e03cc46e00"
+  "status": "completed"
 }
 
 ### 
-DELETE http://localhost:5000/tasks/0212fede-1869-405b-ae5a-d3e4a715c241
+DELETE http://localhost:5000/tasks/7a9fdcc7-19c7-4478-b4ee-4caaf8107727
 
 
 ###
-GET http://localhost:5000/tasks/4295b824-3015-4e33-a26f-02a34ec46a28
+GET http://localhost:5000/tasks/19

@@ -6,7 +6,7 @@ export const getTasks = async (req, res) => {
   try {
     let response;
     if (req.role === "guru") {
-      response = await Tasks.findAll({
+      response = await Tasks.findOne({
         attributes: ["uuid", "detail", "task", "nilai", "status"],
         include: [
           {
@@ -16,10 +16,10 @@ export const getTasks = async (req, res) => {
         ],
       });
     } else {
-      response = await Tasks.findAll({
+      response = await Tasks.findOne({
         attributes: ["uuid", "detail", "task", "nilai", "status"],
         where: {
-          userId: req.userId,
+          id: req.params.id,
         },
         include: [
           {
@@ -53,11 +53,16 @@ export const createTask = async (req, res) => {
 
 export const updateTask = async (req, res) => {
   try {
+    // Log for debugging
+    console.log(`Received update request for task ID: ${req.params.id}`);
+    console.log(`User role: ${req.role}, User ID: ${req.userId}`);
+
     const task = await Tasks.findOne({
       where: {
-        uuid: req.params.id,
+        id: req.params.id,
       },
     });
+
     if (!task) return res.status(404).json({ msg: "Task not found" });
 
     const { detail, task: newTask, nilai, status } = req.body;
@@ -84,11 +89,15 @@ export const updateTask = async (req, res) => {
         }
       );
     }
+
     res.status(200).json({ msg: "Task updated successfully" });
   } catch (error) {
+    // Log for debugging
+    console.error("Error updating task:", error);
     res.status(500).json({ msg: error.message });
   }
 };
+
 
 export const deleteTask = async (req, res) => {
   try {
